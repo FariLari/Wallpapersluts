@@ -1,0 +1,28 @@
+{
+  "name": "wallpapersluts",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "pkg index.js --config package.json --compress GZip",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FariLari/Wallpapersluts.git"
+  },
+  "keywords": [],
+  "author": "Lara Fischer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FariLari/Wallpapersluts/issues"
+  },
+  "homepage": "https://github.com/FariLari/Wallpapersluts#readme",
+  "pkg": {
+    "outputPath": "dist"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.2",
+    "wallpaper": "5.0.1"
+  }
+}
