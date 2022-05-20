@@ -19,6 +19,8 @@ const https = require('https');
 const path = require('path');
 const dayjs = require('dayjs');
 const wallpaper = require('wallpaper');
+const robotjs = require('robotjs');
+const jimp = require('jimp');
 
 async function doRequest() {
   var p = new Promise(function (resolve, reject) {
@@ -126,9 +128,21 @@ async function checkOrDownloadFile(image) {
 
     var req = https.get(options, (response) => {
       response.pipe(file);
-      file.on('finish', () => {
+      file.on('finish', async() => {
         file.close();
-        resolve(newFilename);
+
+        var screen =robotjs.getScreenSize();
+        new jimp(screen.width, screen.height, '#000000' , async (err, bg) => {          
+          await bg.background(0x000000);    
+
+          var image = await jimp.read(newFilename);
+          await image.scaleToFit(screen.width, screen.height);
+          await bg.composite(image, (screen.width/2-image.bitmap.width/2), (screen.height/2-image.bitmap.height/2))
+          await bg.write(newFilename);
+
+          resolve(newFilename);
+        });
+        
       });
       }
     );
@@ -151,14 +165,13 @@ async function main() {
   var image = getNewest(data);
   var wall=await checkOrDownloadFile(image);
 
-
-  if (process.platform!="win32") {
+  //if (process.platform!="win32") {
     var wall2 = await wallpaper.get();
     if (wall2!=wall) {
       await wallpaper.set(wall);
       console.log("Setting Wallpaper to " + image.categorie+ " - " + wall);
     }
-  } else {
+  /*} else {
     // FU pkg for not getting the windows-wallpaper.exe into the package!
     //var exe=path.join(__dirname,"node_modules","wallpaper","source","windows-wallpaper.exe");
     var exe=path.join(process.cwd(),"windows-wallpaper.exe");
@@ -172,7 +185,7 @@ async function main() {
       require('child_process').execSync(exe + ' "' + wall + '"');
       console.log("Setting Wallpaper to " + image.categorie+ " - " + wall);
     }
-  }
+  }*/
   
   setTimeout(main, 10000)
 }
