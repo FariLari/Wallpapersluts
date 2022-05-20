@@ -104,7 +104,7 @@ function getNewest(data) {
 }
 
 async function checkOrDownloadFile(image) {
-  var newFilename=path.join(__dirname, DATA_FOLDER, image.path.replace('/','_'));
+  var newFilename=path.join(process.cwd(), DATA_FOLDER, image.path.replace('/','_'));
 
   if (!fs.existsSync(DATA_FOLDER)) {
     fs.mkdirSync(DATA_FOLDER, { recursive: true });
@@ -143,14 +143,37 @@ async function checkOrDownloadFile(image) {
 
 // do your thing bitch
 async function main() {
-  console.log(process.platform);
+  console.log();
   console.log("Checking for new Images...");
   var data = await doRequest();
   data = checkSettings(data);
   var image = getNewest(data);
   var wall=await checkOrDownloadFile(image);
-  console.log(wall);
-  await wallpaper.set(wall);
+
+
+  if (process.platform!="win32") {
+    var wall2 = await wallpaper.get();
+    if (wall2!=wall) {
+      await wallpaper.set(wall);
+      console.log("Setting Wallpaper to " + image.categorie+ " - " + wall);
+    }
+  } else {
+    // FU pkg for not getting the windows-wallpaper.exe into the package!
+    //var exe=path.join(__dirname,"node_modules","wallpaper","source","windows-wallpaper.exe");
+    var exe=path.join(process.cwd(),"windows-wallpaper.exe");
+    var wall2=require('child_process').execSync(exe);
+
+    // Without that trim there is something wrong?!?
+    wall=wall.trim();
+    var wall2=wall2.toString().trim();
+
+    if (wall2!=wall) {
+      require('child_process').execSync(exe + ' "' + wall + '"');
+      console.log("Setting Wallpaper to " + image.categorie+ " - " + wall);
+    }
+  }
+  
+  setTimeout(main, 10000)
 }
-//setInterval(main, 10000);
+
 main();

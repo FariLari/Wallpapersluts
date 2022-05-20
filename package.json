@@ -1,10 +1,10 @@
 {
   "name": "wallpapersluts",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "pkg index.js --config package.json --compress GZip",
+    "build": "pkg index.js --config package.json --compress GZip && copy node_modules\\wallpaper\\source\\windows-wallpaper.exe dist\\windows-wallpaper.exe",
     "start": "node index.js"
   },
   "repository": {
@@ -19,10 +19,13 @@
   },
   "homepage": "https://github.com/FariLari/Wallpapersluts#readme",
   "pkg": {
-    "outputPath": "dist"
+    "outputPath": "dist",
+    "assets": "node_modules/wallpaper/source/*"
   },
   "dependencies": {
     "dayjs": "^1.11.2",
     "wallpaper": "5.0.1"
   }
 }
+
+
