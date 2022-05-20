@@ -165,13 +165,13 @@ async function main() {
   var image = getNewest(data);
   var wall=await checkOrDownloadFile(image);
 
-  //if (process.platform!="win32") {
+  if (process.platform!="win32") {
     var wall2 = await wallpaper.get();
     if (wall2!=wall) {
       await wallpaper.set(wall);
       console.log("Setting Wallpaper to " + image.categorie+ " - " + wall);
     }
-  /*} else {
+  } else {
     // FU pkg for not getting the windows-wallpaper.exe into the package!
     //var exe=path.join(__dirname,"node_modules","wallpaper","source","windows-wallpaper.exe");
     var exe=path.join(process.cwd(),"windows-wallpaper.exe");
@@ -185,7 +185,7 @@ async function main() {
       require('child_process').execSync(exe + ' "' + wall + '"');
       console.log("Setting Wallpaper to " + image.categorie+ " - " + wall);
     }
-  }*/
+  }
   
   setTimeout(main, 10000)
 }
