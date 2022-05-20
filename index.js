@@ -113,6 +113,7 @@ async function checkOrDownloadFile(image) {
   var p = new Promise(function (resolve, reject) {
     if (fs.existsSync(newFilename)) {
       resolve(newFilename);
+      return;
     }
     
     const file = fs.createWriteStream(newFilename);
