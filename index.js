@@ -117,6 +117,7 @@ async function checkOrDownloadFile(image) {
       resolve(newFilename);
       return;
     }
+    console.log("Downloading & Scaling new File!");
     
     const file = fs.createWriteStream(newFilename);
     const options = {
@@ -140,6 +141,8 @@ async function checkOrDownloadFile(image) {
           await bg.composite(image, (screen.width/2-image.bitmap.width/2), (screen.height/2-image.bitmap.height/2))
           await bg.write(newFilename);
 
+          await new Promise(r => setTimeout(r, 1000));
+
           resolve(newFilename);
         });
         
@@ -158,7 +161,6 @@ async function checkOrDownloadFile(image) {
 
 // do your thing bitch
 async function main() {
-  console.log();
   console.log("Checking for new Images...");
   var data = await doRequest();
   data = checkSettings(data);
