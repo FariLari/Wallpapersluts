@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "changelog": "cz changelog && git add CHANGELOG.md",
+    "bump": "npm version patch && npm run build",
     "build": "pkg index.js --config package.json --compress GZip && copy node_modules\\wallpaper\\source\\windows-wallpaper.exe dist\\windows-wallpaper.exe",
     "start": "node index.js"
   },
