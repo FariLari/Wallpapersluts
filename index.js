@@ -21,6 +21,7 @@ const dayjs = require('dayjs');
 const wallpaper = require('wallpaper');
 const robotjs = require('robotjs');
 const jimp = require('jimp');
+const sleep = require('await-sleep');
 
 async function doRequest() {
   var p = new Promise(function (resolve, reject) {
@@ -34,7 +35,12 @@ async function doRequest() {
 
     var req = https.request(options, (response) => {
         response.on('data', async (body) => {
-          var json = JSON.parse(body.toString());
+          var json = {};
+          try {
+            json = JSON.parse(body.toString());
+          } catch (e) {
+          }
+          await sleep(100);
           resolve(json);
         });
       }
@@ -49,7 +55,7 @@ async function doRequest() {
   return p;
 }
 
-function checkSettings(data) {
+async function checkSettings(data) {
 
   // Create fucking new Config Lines!
   // And delete all excluded Things!
@@ -76,6 +82,7 @@ function checkSettings(data) {
     }
   }
   fs.writeFileSync(CONFIG_FILE, JSON.stringify(config, null, 2));
+  await sleep(100);
   return data;
 }
 
@@ -110,6 +117,7 @@ async function checkOrDownloadFile(image) {
 
   if (!fs.existsSync(DATA_FOLDER)) {
     fs.mkdirSync(DATA_FOLDER, { recursive: true });
+    await sleep(100);
   }
 
   var p = new Promise(function (resolve, reject) {
@@ -131,6 +139,7 @@ async function checkOrDownloadFile(image) {
       response.pipe(file);
       file.on('finish', async() => {
         file.close();
+        await sleep(100);
 
         var screen =robotjs.getScreenSize();
         new jimp(screen.width, screen.height, '#000000' , async (err, bg) => {          
@@ -141,7 +150,7 @@ async function checkOrDownloadFile(image) {
           await bg.composite(image, (screen.width/2-image.bitmap.width/2), (screen.height/2-image.bitmap.height/2))
           await bg.write(newFilename);
 
-          await new Promise(r => setTimeout(r, 1000));
+          await sleep(1000);
 
           resolve(newFilename);
         });
@@ -163,29 +172,33 @@ async function checkOrDownloadFile(image) {
 async function main() {
   console.log("Checking for new Images...");
   var data = await doRequest();
-  data = checkSettings(data);
+  data = await checkSettings(data);
   var image = getNewest(data);
-  var wall=await checkOrDownloadFile(image);
-
-  if (process.platform!="win32") {
-    var wall2 = await wallpaper.get();
-    if (wall2!=wall) {
-      await wallpaper.set(wall);
-      console.log("Setting Wallpaper to " + image.categorie+ " - " + wall);
-    }
+  if (typeof image.path=="undefined" || image.path=="") {
+  
   } else {
-    // FU pkg for not getting the windows-wallpaper.exe into the package!
-    //var exe=path.join(__dirname,"node_modules","wallpaper","source","windows-wallpaper.exe");
-    var exe=path.join(process.cwd(),"windows-wallpaper.exe");
-    var wall2=require('child_process').execSync(exe);
+    var wall=await checkOrDownloadFile(image);
 
-    // Without that trim there is something wrong?!?
-    wall=wall.trim();
-    var wall2=wall2.toString().trim();
+    if (process.platform!="win32") {
+      var wall2 = await wallpaper.get();
+      if (wall2!=wall) {
+        await wallpaper.set(wall);
+        console.log("Setting Wallpaper to " + image.categorie+ " - " + wall);
+      }
+    } else {
+      // FU pkg for not getting the windows-wallpaper.exe into the package!
+      //var exe=path.join(__dirname,"node_modules","wallpaper","source","windows-wallpaper.exe");
+      var exe=path.join(process.cwd(),"windows-wallpaper.exe");
+      var wall2=require('child_process').execSync(exe);
 
-    if (wall2!=wall) {
-      require('child_process').execSync(exe + ' "' + wall + '"');
-      console.log("Setting Wallpaper to " + image.categorie+ " - " + wall);
+      // Without that trim there is something wrong?!?
+      wall=wall.trim();
+      var wall2=wall2.toString().trim();
+
+      if (wall2!=wall) {
+        require('child_process').execSync(exe + ' "' + wall + '"');
+        console.log("Setting Wallpaper to " + image.categorie+ " - " + wall);
+      }
     }
   }
   

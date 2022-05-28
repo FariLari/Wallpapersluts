@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@vamidicreations/screenres": "^2.0.3",
+    "await-sleep": "^0.0.1",
     "dayjs": "^1.11.2",
     "jimp": "^0.16.1",
     "robotjs": "^0.6.0",
