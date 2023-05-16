@@ -6,6 +6,8 @@ console.log(outname);
 console.log("=".repeat(outname.length));
 console.log();
 
+// test: TEST
+
 // some things you need to set fix
 const DATA_FOLDER = "data";
 const CONFIG_FILE = "settings.json";
