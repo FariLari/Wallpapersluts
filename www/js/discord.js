@@ -1,15 +1,14 @@
-var response_type="code";
-var scope="identify%20guilds";
-var state="1";
-var redirect_uri="http://localhost:8000/";
-
-var storage = window.localStorage;
-
-//storage.setItem(key, value) // Pass a key name and its value to add or update that key.
-//storage.removeItem("token"); // Pass a key name to remove that key from storage.
-
 function DiscordLogin() {
+  var storage = window.localStorage;
 
+  //storage.setItem(key, value) // Pass a key name and its value to add or update that key.
+  //storage.removeItem("token"); // Pass a key name to remove that key from storage.
+
+  var response_type="code";
+  var scope="identify%20guilds";
+  var state="1";
+  var redirect_uri="http://localhost:8000/";
+  
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   const code = urlParams.get('code');
