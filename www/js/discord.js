@@ -27,7 +27,7 @@ function DiscordLogin() {
       return result.json();
     })
     .then(response => {
-      console.log (response);
+      SetUser(JSON.parse(JSON.stringify(response)));
     })
     
     return;
