@@ -1,19 +1,47 @@
+var storage = window.localStorage;
+
+//storage.setItem(key, value) // Pass a key name and its value to add or update that key.
+
+var response_type="code";
+var scope="identify%20guilds";
+var state="1";
+var redirect_uri="http://localhost:8000/";
+
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const code = urlParams.get('code');
+
+const token = storage.getItem("token");
+
+
+function DiscordGuilds() {
+  if (token!=null) {
+    var auth_token=JSON.parse(token);
+
+    fetch('https://discord.com/api/users/@me/guilds', {
+			headers: {
+				authorization: `${auth_token.token_type} ${auth_token.access_token}`,
+			},
+		})
+    .then(result => {
+      if (result.status==401) {
+        storage.removeItem("token"); // Pass a key name to remove that key from storage.
+        DiscordLogin();
+        return;
+      }
+      return result.json();
+    })
+    .then(response => {
+      SetGuild(JSON.parse(JSON.stringify(response)));
+    })
+    
+    return;
+  }
+
+}
+
 function DiscordLogin() {
-  var storage = window.localStorage;
-
-  //storage.setItem(key, value) // Pass a key name and its value to add or update that key.
-  //storage.removeItem("token"); // Pass a key name to remove that key from storage.
-
-  var response_type="code";
-  var scope="identify%20guilds";
-  var state="1";
-  var redirect_uri="http://localhost:8000/";
   
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const code = urlParams.get('code');
-
-  const token = storage.getItem("token");
   if (token!=null) {
     var auth_token=JSON.parse(token);
 
@@ -23,11 +51,16 @@ function DiscordLogin() {
 			},
 		})
     .then(result => {
-      console.log(result);
+      if (result.status==401) {
+        storage.removeItem("token"); // Pass a key name to remove that key from storage.
+        DiscordLogin();
+        return;
+      }
       return result.json();
     })
     .then(response => {
       SetUser(JSON.parse(JSON.stringify(response)));
+      DiscordGuilds();
     })
     
     return;

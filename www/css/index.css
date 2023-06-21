@@ -20,26 +20,9 @@ body {
 }
 
 .app {
-    background:url(../img/logo.png) no-repeat center top;
-    position:absolute;
-    left:50%;
-    top:50%;
-    height:50px;
-    width:225px;
+    width:100%;
     text-align:center;
-    padding:180px 0px 0px 0px;
-    margin:-115px 0px 0px -112px;
 }
-
-/* Landscape layout (with min-width) 
-@media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
-    .app {
-        background-position:left center;
-        padding:75px 0px 75px 170px;
-        margin:-90px 0px 0px -198px;
-    }
-}
-*/
 
 h1 {
     font-size:24px;
