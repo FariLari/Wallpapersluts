@@ -5,5 +5,6 @@ function onDeviceReady() {
     document.getElementById('deviceready').classList.add('ready');
 
     document.getElementById("deviceready").style="display:none";
+    document.getElementById("header_logo").style="display:none";
     DiscordLogin();
 }

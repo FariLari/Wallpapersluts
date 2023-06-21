@@ -60,7 +60,6 @@ function DiscordLogin() {
     })
     .then(response => {
       SetUser(JSON.parse(JSON.stringify(response)));
-      DiscordGuilds();
     })
     
     return;

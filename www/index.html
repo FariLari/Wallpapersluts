@@ -3,21 +3,25 @@
     <head>
         <meta charset="utf-8">
         <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">!-->
-        <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com 'unsafe-eval';">        
+        <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-eval' 'unsafe-hashes' 'unsafe-inline'">        
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
         <meta name="color-scheme" content="light dark">
         <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="css/style.css">
         <title>'Share Care'</title>
     </head>
 
     <body>
         
         <div class="app">
+
+            <div id="header_logo">
             <img src="img/logo.png"><br>
             <h1>Share Care</h1>
-            
+            </div>
+
             <div id="content">
 
                 <div id="deviceready" class="blink">
@@ -26,6 +30,8 @@
                 </div>
 
                 <div id="header_user"></div>
+
+                <div id="main"></div>
 
             </div>
 
@@ -39,15 +45,39 @@
         <script src="js/view.js"></script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js"></script>
     </body>
 
 </html>
 
 <script id="user-template" type="text/x-handlebars-template">
-    <div class="user">
-        <img src="https://cdn.discordapp.com/avatars/{{id}}/{{avatar}}.png">
-        <p>{{username}}</p>
-    </div>
+    <div class="contentheader" onClick="setMain('profile');">
+		<img data-src="{{pic}}" src="/img/giphy.gif" class="lazyload" \ />
+		<span>{{displayName}}</span>
+	</div>
+    <br><hr><br>
+</script>
+
+<script id="main-template" type="text/x-handlebars-template">
+    <div class="contentmenu">
+        <button onClick="setMain('profile');">Profile</button><br><br>
+        <button onClick="setMain('send');">Send</button><br><br>
+        <button onClick="setMain('received');">Received</button><br><br>
+		<button onClick="setMain('friends');">Friends</button><br><br>
+	</div>
+</script>
+
+<script id="profile-template" type="text/x-handlebars-template">
+    <div class="contentmenu">
+        <button onClick="setMain('main');">Back</button><br><br>
+		<img data-src="{{pic}}" src="/img/giphy.gif" class="lazyload" \ /><br>
+		<span>{{displayName}}</span><br>
+        <span class="small">{{jid}}</span><br>
+
+        <span>Username:</span>&nbsp;<span>{{username}}</span><br>
+        
+        <br>
+	</div>
 </script>
 
 <!--

@@ -1,16 +1,20 @@
-function SetUser(user_json) {
-  doHandelbars(user_json, "user-template", "header_user");
+async function SetUser(user_json) {
+  Application_Data.User=await SendData(user_json, Server_App.url + "user");
 
-  SendData(user_json, Server_App.url + "user");
+  doHandelbars(Application_Data.User, "user-template", "header_user");
+  setMain("main");
+  
+  //DiscordGuilds();
 }
 
 function SetGuild(guild_json) {
-  console.log(guild_json);
+  SendData(guild_json, Server_App.url + "server");
 }
 
 
-function SendData(json_data, url) {
-  json_data.service=Application_Data.service; //!
+async function SendData(json_data, url) {
+  json_data.service=Application_Data.Service; //!
+  json_data.jid=Application_Data.User.jid;
   
   var formBody = [];
   for (var property in json_data) {
@@ -19,9 +23,8 @@ function SendData(json_data, url) {
     formBody.push(encodedKey + "=" + encodedValue);
   }
   formBody = formBody.join("&");
-  console.log(formBody);
 
-  fetch(url, {
+  return await fetch(url, {
     method: "POST",
     body: formBody,
     headers: {
@@ -30,6 +33,11 @@ function SendData(json_data, url) {
   })
   .then((response) => response.json())
   .then((json) =>  {
-    console.log(json);
+    return json;
+  })
+  .catch(err => {
+    console.log(url, err);
+    setTimeout(() => { window.location.href = window.location.href; }, 5000);
+    return {};
   });
 }
