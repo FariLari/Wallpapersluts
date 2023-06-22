@@ -59,6 +59,11 @@ function DiscordLogin() {
       return result.json();
     })
     .then(response => {
+      if (typeof response == "undefined") {
+        storage.removeItem("token"); // Pass a key name to remove that key from storage.
+        DiscordLogin();
+        return;
+      }
       SetUser(JSON.parse(JSON.stringify(response)));
     })
     

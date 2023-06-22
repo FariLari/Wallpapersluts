@@ -14,7 +14,9 @@ function SetGuild(guild_json) {
 
 async function SendData(json_data, url) {
   json_data.service=Application_Data.Service; //!
-  json_data.jid=Application_Data.User.jid;
+  if (typeof Application_Data.User != "undefined") {
+    json_data.jid=Application_Data.User.jid;
+  }
   
   var formBody = [];
   for (var property in json_data) {
