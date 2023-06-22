@@ -11,9 +11,16 @@ function SetGuild(guild_json) {
   SendData(guild_json, Server_App.url + "server");
 }
 
+async function SearchUser(string) {
+  var user_json={ "search": string };
+  
+  Application_Data.Friend_Search=await SendData(user_json, Server_App.url + "list_user");
+  doHandelbars(Application_Data.Friend_Search, "userlist-template", "friend_search");
+}
 
 async function SendData(json_data, url) {
   json_data.service=Application_Data.Service; //!
+
   if (typeof Application_Data.User != "undefined") {
     json_data.jid=Application_Data.User.jid;
   }

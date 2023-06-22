@@ -73,13 +73,44 @@
 		<img data-src="{{pic}}" src="/img/giphy.gif" class="lazyload" \ /><br>
 		<span>{{displayName}}</span><br>
         <span class="small">{{jid}}</span><br>
-
+        <br>
         <span>Username:</span>&nbsp;<span>{{username}}</span><br>
         
         <br>
 	</div>
 </script>
 
+<script id="friends-template" type="text/x-handlebars-template">
+    <div class="contentmenu">
+        <button onClick="setMain('main');">Back</button><br><br>
+        <input type="text" id="search" onChange="SearchUser(this.value)"/><br>
+		<hr>
+        Search (max 5):<br>
+		<div id="friend_search"></div>
+        <br>
+        <hr>
+        Requests:<br>
+        <div id="friend_request"></div>
+        <br>
+        <hr>
+        Pending:<br>
+        <div id="friend_pending"></div>
+        <br>
+        <hr>
+        Friends:<br>
+        <div id="friend_list"></div>
+        <br>
+        <hr>
+	</div>
+</script>
+
+<script id="userlist-template" type="text/x-handlebars-template">
+    {{#each this}}
+		<img data-src="{{this.pic}}" src="/img/giphy.gif" class="lazyload" \ />
+		<span>{{this.displayName}}</span>
+        <br>
+    {{/each}}
+</script>
 <!--
 
 accent_color: null
