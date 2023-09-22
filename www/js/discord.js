@@ -53,7 +53,7 @@ function DiscordLogin() {
     .then(result => {
       if (result.status==401) {
         storage.removeItem("token"); // Pass a key name to remove that key from storage.
-        DiscordLogin();
+        location.href=redirect_uri;
         return;
       }
       return result.json();
@@ -61,7 +61,7 @@ function DiscordLogin() {
     .then(response => {
       if (typeof response == "undefined") {
         storage.removeItem("token"); // Pass a key name to remove that key from storage.
-        DiscordLogin();
+        location.href=redirect_uri;
         return;
       }
       SetUser(JSON.parse(JSON.stringify(response)));
