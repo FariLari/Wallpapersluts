@@ -5,7 +5,7 @@ var storage = window.localStorage;
 var response_type="code";
 var scope="identify%20guilds";
 var state="1";
-var redirect_uri="http://localhost:8000/";
+var redirect_uri="https://yours-mine.com/test";
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
