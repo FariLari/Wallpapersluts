@@ -15,7 +15,7 @@ async function SearchUser(string) {
   var user_json={ "search": string };
   
   Application_Data.Friend_Search=await SendData(user_json, Server_App.url + "list_user");
-  doHandelbars(Application_Data.Friend_Search, "userlist-template", "friend_search");
+  doHandelbars(Application_Data.Friend_Search, "search-template", "friend_search");
 }
 
 async function SendData(json_data, url) {
@@ -46,7 +46,44 @@ async function SendData(json_data, url) {
   })
   .catch(err => {
     console.log(url, err);
-    setTimeout(() => { window.location.href = window.location.href; }, 5000);
+    //setTimeout(() => { window.location.href = window.location.href; }, 5000);
     return {};
   });
 }
+
+async function SendFriendRequest(element, jid) {
+  element.parentNode.style.display='none';
+
+  await SendData({jid2:jid}, Server_App.url + "add_request");
+  Application_Data.Friend_Pending=await SendData({}, Server_App.url + "list_pending");
+  doHandelbars(Application_Data.Friend_Pending, "pending-template", "friend_pending");
+}
+
+async function RemoveFriendRequest(element, jid) {
+  element.parentNode.style.display='none';
+
+  await SendData({jid2:jid}, Server_App.url + "remove_pending");
+  Application_Data.Friend_Pending=await SendData({}, Server_App.url + "list_pending");
+  doHandelbars(Application_Data.Friend_Pending, "pending-template", "friend_pending");
+}
+
+async function Friend_Positive(element, jid) {
+  element.parentNode.style.display='none';
+
+  await SendData({jid2:jid}, Server_App.url + "add_friend");
+  Application_Data.Friend_List=await SendData({}, Server_App.url + "list_friends");
+  doHandelbars(Application_Data.Friend_List, "friend-template", "friend_list");
+}
+
+async function Friend_Negative(element, jid) {
+  element.parentNode.style.display='none';
+
+  await SendData({jid2:jid}, Server_App.url + "remove_request");
+}
+
+async function Friend_Remove(element, jid) {
+  element.parentNode.style.display='none';
+
+  await SendData({jid2:jid}, Server_App.url + "remove_friend");
+}
+

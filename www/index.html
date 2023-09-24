@@ -10,7 +10,7 @@
         <meta name="color-scheme" content="light dark">
         <link rel="stylesheet" href="css/index.css">
         <link rel="stylesheet" href="css/style.css">
-        <title>'Share Care'</title>
+        <title>Lewd-Claimer</title>
     </head>
 
     <body>
@@ -18,8 +18,9 @@
         <div class="app">
 
             <div id="header_logo">
-            <img src="img/logo.png"><br>
-            <h1>Share Care</h1>
+            <img src="https://cdn.discordapp.com/icons/1073297080350691428/a_0bac3e0d4c1d918690b6b20795ebf311.gif"><br>
+            <h1>Lewd-Claimer</h1>
+            <br>
             </div>
 
             <div id="content">
@@ -60,10 +61,10 @@
 
 <script id="main-template" type="text/x-handlebars-template">
     <div class="contentmenu">
-        <button onClick="setMain('profile');">Profile</button><br><br>
         <button onClick="setMain('send');">Send</button><br><br>
-        <button onClick="setMain('received');">Received</button><br><br>
+        <button onClick="setMain('msg');">Received</button><br><br>
 		<button onClick="setMain('friends');">Friends</button><br><br>
+        <button onClick="setMain('profile');">Profile</button><br><br>
 	</div>
 </script>
 
@@ -105,10 +106,112 @@
 
 <script id="userlist-template" type="text/x-handlebars-template">
     {{#each this}}
+        <div class="user_list">
+        <button>+</button>
+        <button>-</button>
+        <input type="checkbox" name="to[]" value="{{this.jid}}">
+
 		<img data-src="{{this.pic}}" src="/img/giphy.gif" class="lazyload" \ />
 		<span>{{this.displayName}}</span>
+
+        </div>
         <br>
     {{/each}}
+</script>
+
+<script id="search-template" type="text/x-handlebars-template">
+    {{#each this}}
+        <div class="user_list">
+        <button OnClick="SendFriendRequest(this, '{{this.jid}}');">+</button>
+        
+		<img data-src="{{this.pic}}" src="/img/giphy.gif" class="lazyload" \ />
+		<span>{{this.displayName}}</span>
+
+        </div>
+        <br>
+    {{/each}}
+</script>
+
+<script id="pending-template" type="text/x-handlebars-template">
+    {{#each this}}
+        <div class="user_list">
+        <button OnClick="RemoveFriendRequest(this, '{{this.jid}}');">-</button>
+        
+		<img data-src="{{this.pic}}" src="/img/giphy.gif" class="lazyload" \ />
+		<span>{{this.displayName}}</span>
+
+        </div>
+        <br>
+    {{/each}}
+</script>
+
+<script id="request-template" type="text/x-handlebars-template">
+    {{#each this}}
+        <div class="user_list">
+        <button OnClick="Friend_Positive(this, '{{this.jid}}');">+</button>
+        <button OnClick="Friend_Negative(this, '{{this.jid}}');">-</button>
+        
+		<img data-src="{{this.pic}}" src="/img/giphy.gif" class="lazyload" \ />
+		<span>{{this.displayName}}</span>
+
+        </div>
+        <br>
+    {{/each}}
+</script>
+
+<script id="friend-template" type="text/x-handlebars-template">
+    {{#each this}}
+        <div class="user_list">
+        <button OnClick="Friend_Remove(this, '{{this.jid}}');">-</button>
+        
+		<img data-src="{{this.pic}}" src="/img/giphy.gif" class="lazyload" \ />
+		<span>{{this.displayName}}</span>
+
+        </div>
+        <br>
+    {{/each}}
+</script>
+
+<script id="send-template" type="text/x-handlebars-template">
+    <div class="contentmenu">
+        <button onClick="setMain('main');">Back</button><br><br>
+        <form action="https://www.yours-mine.com/api/send" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="service" value="{{this.Service}}">
+            <input type="hidden" name="jid" value="{{this.User.jid}}">
+        
+            <input type="file" id="myFile" name="filename">
+            
+            <input type="hidden" name="tags[]" value="TEST">
+            
+            {{#each this.Friend_List}}
+                <div class="user_list">
+                <input type="checkbox" name="to[]" value="{{this.jid}}">
+
+                <img data-src="{{this.pic}}" src="/img/giphy.gif" class="lazyload" \ />
+                <span>{{this.displayName}}</span>
+
+                </div>
+                <br>
+            {{/each}}
+            
+            <input type="submit">
+        </form>
+    </div>
+</script>
+
+<script id="msg-template" type="text/x-handlebars-template">
+    <div class="contentmenu">
+        <button onClick="setMain('main');">Back</button><br><br>
+        {{#each this}}
+            <div class="user_show"> 
+                <span class="small">{{this.created_at}}</span>
+                <img data-src="{{this.sender.pic}}" src="/img/giphy.gif" class="lazyload" \ />
+                <span>{{this.sender.displayName}}</span>
+            </div>
+            <img data-src="{{this.message_pic}}" src="/img/giphy.gif" class="lazyload" \ />
+            <br>
+        {{/each}}
+    </div>
 </script>
 <!--
 

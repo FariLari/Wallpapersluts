@@ -18,6 +18,14 @@ async function setMain(place) {
       Application_Data.Friend_Request=await SendData({}, Server_App.url + "list_requests");
       Application_Data.Friend_Pending=await SendData({}, Server_App.url + "list_pending");
       break;
+    case 'send':
+      Application_Data.Friend_List=await SendData({}, Server_App.url + "list_friends");
+      data=Application_Data;
+      break;
+    case 'msg':
+      data=await SendData({}, Server_App.url + "msg");
+      console.log(data);
+      break;
     default:
       place="main";
       break;
@@ -26,11 +34,12 @@ async function setMain(place) {
 
   switch (place) {
     case 'friends':
-      doHandelbars(Application_Data.Friend_List, "userlist-template", "friend_list");
-      doHandelbars(Application_Data.Friend_Request, "userlist-template", "friend_request");
-      doHandelbars(Application_Data.Friend_Pending, "userlist-template", "friend_pending");
+      doHandelbars(Application_Data.Friend_List, "friend-template", "friend_list");
+      doHandelbars(Application_Data.Friend_Request, "request-template", "friend_request");
+      doHandelbars(Application_Data.Friend_Pending, "pending-template", "friend_pending");
       break;
     default:
       break;
   }
+  console.log(Application_Data);
 }

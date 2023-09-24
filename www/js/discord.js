@@ -32,7 +32,8 @@ function DiscordGuilds() {
       return result.json();
     })
     .then(response => {
-      SetGuild(JSON.parse(JSON.stringify(response)));
+      //SetGuild(JSON.parse(JSON.stringify(response)));
+      //console.log(response);
     })
     
     return;

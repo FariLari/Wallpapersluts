@@ -1,11 +1,68 @@
+#header_logo {
+  margin-top: 20vh;
+}
 .contentheader {
-  margin-left: 10px;
-  margin-top: 5px;
+  margin-left: 1vw;
+  margin-top: 1vh;
+  font-size: 2em;
+
+  -webkit-transform: scale(2);
+  -moz-transform: scale(2);
+  -ms-transform: scale(2);
+  -o-transform: scale(2);
+  transform: scale(2);
 }
 .contentheader img {
   max-height: 20px;
   border-radius: 50%;
 }
+input {
+  height: 4vh;
+  font-size: 2em;
+}
+
+.contentmenu button, .user_list {
+  text-transform:uppercase;
+  font-size: 3em;
+  height: 8vh;
+  width: 80vw;
+  margin-top: 1vh;
+}
+
+.user_list {
+  margin-left: 10vh;
+  text-align:left;
+}
+.user_list img {
+  height: 3vh;
+  border-radius: 50%;
+}
+.user_list button {
+  height: 5vh;
+  border-radius: 50%;
+  width: 6vw;
+  font-size: 1em;
+}
+.user_list input[type="checkbox"] {
+  height: 4vh;
+  width: 4vw;
+}
+
+.user_show {
+  margin-left: 20vh;
+  text-align: left;
+  font-size: 3em;
+  max-width: 80vw;
+}
+
+.user_show img {
+  height: 3vh;
+  border-radius: 50%;
+}
+
+
+
+
 
 .app {
     /*
