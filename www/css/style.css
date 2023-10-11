@@ -1,5 +1,5 @@
 #header_logo {
-  margin-top: 20vh;
+  margin-top: 25vh;
 }
 .contentheader {
   margin-left: 1vw;
@@ -21,12 +21,40 @@ input {
   font-size: 2em;
 }
 
-.contentmenu button, .user_list {
+.contentmenu button, input[type="submit"] {
   text-transform:uppercase;
-  font-size: 3em;
-  height: 8vh;
+  font-size: 2em;
+  height: 6vh;
   width: 80vw;
   margin-top: 1vh;
+}
+.user_list {
+  font-size: 2em;
+  width: 80vw;
+  margin-top: 1vh;
+}
+
+.contentmenu button, input[type="submit"] {
+  background-image: url('../img/button.png') !important;
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  background-position: center; /* Center the image */
+  background-color: transparent; /* Used if the image is unavailable */
+  color: black;
+  border: 0px;
+}
+.contentmenu button:hover, .contentmenu button:active,
+input[type="submit"]:hover, input[type="submit"]:active {
+  background-image: url('../img/button_active.png') !important;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+textarea {
+  width: 80vw;
+  height: 6vh;
+  margin-top: 2vh;
 }
 
 .user_list {
@@ -49,18 +77,42 @@ input {
 }
 
 .user_show {
-  margin-left: 20vh;
   text-align: left;
+  font-size: 1em;
+}
+.user_name {
   font-size: 3em;
-  max-width: 80vw;
 }
 
 .user_show img {
-  height: 3vh;
+  height: 0.3in;
   border-radius: 50%;
 }
 
+.send_picture {
+  width: 80vw;
+  height: auto;
+}
 
+.entry{
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 80vw;
+
+  border-radius: 1%;
+  border-style: solid;
+  border-width: 0.01in;
+  border-color: white;
+
+  padding: 0.05in;
+}
+
+#output {
+  margin-left: auto;
+  margin-right: auto;
+  width: 40vw;
+  height: auto;
+}
 
 
 

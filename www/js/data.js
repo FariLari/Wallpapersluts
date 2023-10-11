@@ -87,3 +87,8 @@ async function Friend_Remove(element, jid) {
   await SendData({jid2:jid}, Server_App.url + "remove_friend");
 }
 
+async function SendForm(e, form) {
+  setMain('waiting');
+  await fetch(form.action,{method:'post', body: new FormData(form)});
+  setMain('main');
+}

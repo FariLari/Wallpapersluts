@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">!-->
-        <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-eval' 'unsafe-hashes' 'unsafe-inline'">        
+        <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-eval' 'unsafe-hashes' 'unsafe-inline' blob:">        
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
@@ -47,6 +47,9 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js"></script>
+
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/css/basic/emojify.min.css" />
+        <script src="//cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/js/emojify.min.js"></script>
     </body>
 
 </html>
@@ -54,14 +57,14 @@
 <script id="user-template" type="text/x-handlebars-template">
     <div class="contentheader" onClick="setMain('profile');">
 		<img data-src="{{pic}}" src="/img/giphy.gif" class="lazyload" \ />
-		<span>{{displayName}}</span>
+		<span>{{displayNameEmote}}</span>
 	</div>
     <br><hr><br>
 </script>
 
 <script id="main-template" type="text/x-handlebars-template">
     <div class="contentmenu">
-        <button onClick="setMain('send');">Send</button><br><br>
+        <button onClick="setMain('send');">New</button><br><br>
         <button onClick="setMain('msg');">Received</button><br><br>
 		<button onClick="setMain('friends');">Friends</button><br><br>
         <button onClick="setMain('profile');">Profile</button><br><br>
@@ -72,7 +75,7 @@
     <div class="contentmenu">
         <button onClick="setMain('main');">Back</button><br><br>
 		<img data-src="{{pic}}" src="/img/giphy.gif" class="lazyload" \ /><br>
-		<span>{{displayName}}</span><br>
+		<span>{{displayNameEmote}}</span><br>
         <span class="small">{{jid}}</span><br>
         <br>
         <span>Username:</span>&nbsp;<span>{{username}}</span><br>
@@ -112,7 +115,7 @@
         <input type="checkbox" name="to[]" value="{{this.jid}}">
 
 		<img data-src="{{this.pic}}" src="/img/giphy.gif" class="lazyload" \ />
-		<span>{{this.displayName}}</span>
+		<span>{{this.displayNameEmote}}</span>
 
         </div>
         <br>
@@ -122,10 +125,10 @@
 <script id="search-template" type="text/x-handlebars-template">
     {{#each this}}
         <div class="user_list">
-        <button OnClick="SendFriendRequest(this, '{{this.jid}}');">+</button>
+        <img src="img/plus.png" OnClick="SendFriendRequest(this, '{{this.jid}}');">
         
 		<img data-src="{{this.pic}}" src="/img/giphy.gif" class="lazyload" \ />
-		<span>{{this.displayName}}</span>
+		<span>{{this.displayNameEmote}}</span>
 
         </div>
         <br>
@@ -135,10 +138,10 @@
 <script id="pending-template" type="text/x-handlebars-template">
     {{#each this}}
         <div class="user_list">
-        <button OnClick="RemoveFriendRequest(this, '{{this.jid}}');">-</button>
+        <img src="img/minus.png" OnClick="RemoveFriendRequest(this, '{{this.jid}}');">
         
 		<img data-src="{{this.pic}}" src="/img/giphy.gif" class="lazyload" \ />
-		<span>{{this.displayName}}</span>
+		<span>{{this.displayNameEmote}}</span>
 
         </div>
         <br>
@@ -148,11 +151,11 @@
 <script id="request-template" type="text/x-handlebars-template">
     {{#each this}}
         <div class="user_list">
-        <button OnClick="Friend_Positive(this, '{{this.jid}}');">+</button>
-        <button OnClick="Friend_Negative(this, '{{this.jid}}');">-</button>
+        <img src="img/plus.png" OnClick="Friend_Positive(this, '{{this.jid}}');">
+        <img src="img/minus.png" OnClick="Friend_Negative(this, '{{this.jid}}');">
         
 		<img data-src="{{this.pic}}" src="/img/giphy.gif" class="lazyload" \ />
-		<span>{{this.displayName}}</span>
+		<span>{{this.displayNameEmote}}</span>
 
         </div>
         <br>
@@ -162,36 +165,50 @@
 <script id="friend-template" type="text/x-handlebars-template">
     {{#each this}}
         <div class="user_list">
-        <button OnClick="Friend_Remove(this, '{{this.jid}}');">-</button>
+        <img src="img/minus.png" OnClick="Friend_Remove(this, '{{this.jid}}');">
         
 		<img data-src="{{this.pic}}" src="/img/giphy.gif" class="lazyload" \ />
-		<span>{{this.displayName}}</span>
+		<span>{{this.displayNameEmote}}</span>
 
         </div>
         <br>
     {{/each}}
 </script>
 
+<script id="waiting-template" type="text/x-handlebars-template">
+    <div class="entry">
+        <img src="/img/giphy.gif" />
+    </div>
+    <br>
+</script>
+
 <script id="send-template" type="text/x-handlebars-template">
     <div class="contentmenu">
         <button onClick="setMain('main');">Back</button><br><br>
-        <form action="https://www.yours-mine.com/api/send" method="post" enctype="multipart/form-data">
+        <form action="https://www.yours-mine.com/api/send" method="post" enctype="multipart/form-data" onsubmit="SendForm(event,this);return false">
             <input type="hidden" name="service" value="{{this.Service}}">
             <input type="hidden" name="jid" value="{{this.User.jid}}">
         
-            <input type="file" id="myFile" name="filename">
+            <input accept="image/*" type="file" name="filename" onchange="loadFile(event)">
+            <br>
+            <img id="output" src="#" alt="preview" />
+            <br>
+            <textarea name="message"></textarea>
             
             <input type="hidden" name="tags[]" value="TEST">
             
+            <br>
+            <button type="button" onclick="toggle('to[]', true)">Select All</button>
+            <button type="button" onclick="toggle('to[]', false)">Select None</button>
+            <br>
             {{#each this.Friend_List}}
                 <div class="user_list">
                 <input type="checkbox" name="to[]" value="{{this.jid}}">
 
                 <img data-src="{{this.pic}}" src="/img/giphy.gif" class="lazyload" \ />
-                <span>{{this.displayName}}</span>
+                <span>{{this.displayNameEmote}}</span>
 
                 </div>
-                <br>
             {{/each}}
             
             <input type="submit">
@@ -203,12 +220,31 @@
     <div class="contentmenu">
         <button onClick="setMain('main');">Back</button><br><br>
         {{#each this}}
-            <div class="user_show"> 
-                <span class="small">{{this.created_at}}</span>
-                <img data-src="{{this.sender.pic}}" src="/img/giphy.gif" class="lazyload" \ />
-                <span>{{this.sender.displayName}}</span>
+            {{#ifSameAsPrevious ../this @index "sticky"}}
+
+            {{else}}
+            <div class="entry">
+                <div class="user_show">
+                    <p>
+                        <span>{{this.created_at}}</span><br>
+                        <img data-src="{{this.sender.pic}}" src="/img/giphy.gif" class="lazyload" \ />
+                        <span class="user_name">{{this.sender.displayNameEmote}}</span>
+                    </p>
+                </div>
+            {{/ifSameAsPrevious}}
+            
+                
+            {{#ifCond this.text_type "text/plain"}}
+                <p>{{this.message}}</p>
+            {{else}}
+                <img data-src="{{this.message}}" src="/img/giphy.gif" class="lazyload send_picture" \ />
+            {{/ifCond}}
+
+            {{#ifSameAsNext ../this @index "sticky"}}
+            
+            {{else}}
             </div>
-            <img data-src="{{this.message_pic}}" src="/img/giphy.gif" class="lazyload" \ />
+            {{/ifSameAsNext}}
             <br>
         {{/each}}
     </div>
