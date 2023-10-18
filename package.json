@@ -17,6 +17,7 @@
   "author": "Apache Cordova Team",
   "license": "Apache-2.0",
   "devDependencies": {
+    "cordova-android": "^12.0.1",
     "cordova-browser": "^6.0.0",
     "cz-conventional-changelog": "^3.3.0"
   },
