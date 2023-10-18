@@ -5,6 +5,8 @@ async function SetUser(user_json) {
   setMain("main");
   
   //DiscordGuilds();
+
+  GetMessages();
 }
 
 function SetGuild(guild_json) {

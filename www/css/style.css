@@ -21,7 +21,15 @@ input {
   font-size: 2em;
 }
 
-.contentmenu button, input[type="submit"] {
+input[type="submit"] {
+  text-transform:uppercase;
+  font-size: 2.1em;
+  height: 7vh;
+  width: 80vw;
+  margin-top: 1vh;
+}
+
+.contentmenu button {
   text-transform:uppercase;
   font-size: 2em;
   height: 6vh;

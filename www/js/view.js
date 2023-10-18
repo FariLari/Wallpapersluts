@@ -1,4 +1,4 @@
-
+var Message_Timeout;
 
 function doHandelbars(data, source, target) {
   var tmp = document.getElementById(source).innerHTML;
@@ -25,6 +25,13 @@ function doHandelbars(data, source, target) {
   emojify.run();
 }
 
+async function GetMessages() {
+  clearTimeout(Message_Timeout);
+  Message_Timeout=setTimeout(GetMessages,1000*60);
+  Application_Data.Messages=await SendData({}, Server_App.url + "msg_in");
+  return Application_Data.Messages;
+}
+
 async function setMain(place) {
   console.log("link to " + place);
 
@@ -43,11 +50,17 @@ async function setMain(place) {
       data=Application_Data;
       break;
     case 'msg':
-      data=await SendData({}, Server_App.url + "msg");
+      await GetMessages();
+      data=Application_Data;
+      break;
+    case 'gsm':
+      Application_Data.Outgoing=await SendData({}, Server_App.url + "msg_out");
+      data=Application_Data;
       break;
     case 'waiting':
       break;
     default:
+      data=Application_Data;
       place="main";
       break;
   }

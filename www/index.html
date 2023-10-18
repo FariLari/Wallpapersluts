@@ -11,6 +11,16 @@
         <link rel="stylesheet" href="css/index.css">
         <link rel="stylesheet" href="css/style.css">
         <title>Lewd-Claimer</title>
+
+        <link rel="icon" type="image/x-icon" href="img/logo.png">
+        
+        <meta name="kik-prefer" content="true"/>
+        <meta name="og:image" content="img/logo.png"/>
+        <link rel="kik-icon" href="img/logo.png">
+        <link rel="icon" sizes="64x64" href="img/logo.png"/>
+        <link rel="icon" sizes="256x256" href="img/logo.png"/>
+        <link rel="apple-touch-icon" href="img/logo.png"/>
+
     </head>
 
     <body>
@@ -18,7 +28,7 @@
         <div class="app">
 
             <div id="header_logo">
-            <img src="https://cdn.discordapp.com/icons/1073297080350691428/a_0bac3e0d4c1d918690b6b20795ebf311.gif"><br>
+            <img src="img/logo.png" class="send_picture"><br>
             <h1>Lewd-Claimer</h1>
             <br>
             </div>
@@ -66,6 +76,7 @@
     <div class="contentmenu">
         <button onClick="setMain('send');">New</button><br><br>
         <button onClick="setMain('msg');">Received</button><br><br>
+        <button onClick="setMain('gsm');">Sent</button><br><br>
 		<button onClick="setMain('friends');">Friends</button><br><br>
         <button onClick="setMain('profile');">Profile</button><br><br>
 	</div>
@@ -219,8 +230,8 @@
 <script id="msg-template" type="text/x-handlebars-template">
     <div class="contentmenu">
         <button onClick="setMain('main');">Back</button><br><br>
-        {{#each this}}
-            {{#ifSameAsPrevious ../this @index "sticky"}}
+        {{#each this.Messages}}
+            {{#ifSameAsPrevious ../this.Messages @index "sticky"}}
 
             {{else}}
             <div class="entry">
@@ -240,7 +251,41 @@
                 <img data-src="{{this.message}}" src="/img/giphy.gif" class="lazyload send_picture" \ />
             {{/ifCond}}
 
-            {{#ifSameAsNext ../this @index "sticky"}}
+            {{#ifSameAsNext ../this.Messages @index "sticky"}}
+            
+            {{else}}
+            </div>
+            {{/ifSameAsNext}}
+            <br>
+        {{/each}}
+    </div>
+</script>
+
+<script id="gsm-template" type="text/x-handlebars-template">
+    <div class="contentmenu">
+        <button onClick="setMain('main');">Back</button><br><br>
+        {{#each this.Outgoing}}
+            {{#ifSameAsPrevious ../this.Outgoing @index "sticky"}}
+
+            {{else}}
+            <div class="entry">
+                <div class="user_show">
+                    <p>
+                        <span>{{this.created_at}}</span><br>
+                        <img data-src="{{this.sender.pic}}" src="/img/giphy.gif" class="lazyload" \ />
+                        <span class="user_name">{{this.sender.displayNameEmote}}</span>
+                    </p>
+                </div>
+            {{/ifSameAsPrevious}}
+            
+                
+            {{#ifCond this.text_type "text/plain"}}
+                <p>{{this.message}}</p>
+            {{else}}
+                <img data-src="{{this.message}}" src="/img/giphy.gif" class="lazyload send_picture" \ />
+            {{/ifCond}}
+
+            {{#ifSameAsNext ../this.Outgoing @index "sticky"}}
             
             {{else}}
             </div>
