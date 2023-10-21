@@ -1,11 +1,17 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.cordova.hellocordova" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Share Care</name>
-    <description>Sample Apache Cordova App</description>
-    <author email="dev@cordova.apache.org" href="https://cordova.apache.org">
-        Apache Cordova Team
-    </author>
+<widget id="com.lewdclaimer.app" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Lewd Claimer</name>
+    <icon src="www/img/logo.png" />
+
+    <description>Test Lewd Claimer</description>
+    <author email="farilari1508@gmail.com" href="https://yours-mine.com">FariLari</author>
     <content src="index.html" />
+    
+    <allow-intent href="com.lewdclaimer.app:*" />
+
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
+
+    
+    
 </widget>

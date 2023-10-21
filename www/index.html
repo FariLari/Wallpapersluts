@@ -48,6 +48,10 @@
 
         </div>
         
+        <script>
+            window.usingCordova = false;
+        </script>
+        <script src="cordova.js" onload="javascript:window.usingCordova = true;"></script>
         <!--<script src="cordova.js"></script>!-->
         <script src="js/env.js"></script>
         <script src="js/discord.js"></script>
@@ -60,6 +64,7 @@
 
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/css/basic/emojify.min.css" />
         <script src="//cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/js/emojify.min.js"></script>
+
     </body>
 
 </html>
@@ -294,21 +299,3 @@
         {{/each}}
     </div>
 </script>
-<!--
-
-accent_color: null
-avatar: "62bea2ad464fd3c85ec19b21cba4f6d4"
-avatar_decoration: null
-banner: "1290840bdfcfca21e81cc5f1b90ce7e8"
-banner_color: null
-discriminator: "0815"
-flags: 0
-global_name: null
-id: "202892723420659714"
-locale: "de"
-mfa_enabled: true
-premium_type: 2
-public_flags: 0
-username: "Istani"
-
--->

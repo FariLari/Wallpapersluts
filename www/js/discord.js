@@ -7,11 +7,18 @@ var scope="identify%20guilds";
 var state="1";
 var redirect_uri="https://yours-mine.com/test";
 
-const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
-const code = urlParams.get('code');
+var queryString = window.location.search;
+var urlParams = new URLSearchParams(queryString);
+var code = urlParams.get('code');
 
-const token = storage.getItem("token");
+var token = storage.getItem("token");
+
+window.addEventListener('message', async function(event) {
+  if (event.data.match(/^oauth::/)) {
+    var data = JSON.parse(event.data.substring(7));
+    await SendData({data}, Server_App.url + "debug");
+  }
+});
 
 
 function DiscordGuilds() {
@@ -54,7 +61,12 @@ function DiscordLogin() {
     .then(result => {
       if (result.status==401) {
         storage.removeItem("token"); // Pass a key name to remove that key from storage.
-        location.href=redirect_uri;
+        alert("Remove Token 1");
+        if (window.usingCordova==true) {
+          DiscordLogin();
+        } else {
+          location.href=redirect_uri;
+        }
         return;
       }
       return result.json();
@@ -62,7 +74,12 @@ function DiscordLogin() {
     .then(response => {
       if (typeof response == "undefined") {
         storage.removeItem("token"); // Pass a key name to remove that key from storage.
-        location.href=redirect_uri;
+        if (window.usingCordova==true) {
+          alert("Remove Token 2");
+          DiscordLogin();
+        } else {
+          location.href=redirect_uri;
+        }
         return;
       }
       SetUser(JSON.parse(JSON.stringify(response)));
@@ -74,13 +91,24 @@ function DiscordLogin() {
   if (code!=null) {
     console.log(code);
 
-    var details={
-      'client_id': Discord_App.client_id,
-      'client_secret': Discord_App.client_secret,
-      'grant_type': 'authorization_code',
-      'code': code,
-      'redirect_uri': redirect_uri
-    };
+    if (window.usingCordova==true) {
+      var details={
+        'client_id': Discord_App.client_id,
+        'client_secret': Discord_App.client_secret,
+        'grant_type': 'authorization_code',
+        'code': code,
+        'redirect_uri': "http://localhost"
+      };
+    } else {
+      var details={
+        'client_id': Discord_App.client_id,
+        'client_secret': Discord_App.client_secret,
+        'grant_type': 'authorization_code',
+        'code': code,
+        'redirect_uri': redirect_uri
+      };
+    }
+
     var formBody = [];
     for (var property in details) {
       var encodedKey = encodeURIComponent(property);
@@ -99,7 +127,8 @@ function DiscordLogin() {
     .then((response) => response.json())
     .then((json) =>  {
       storage.setItem("token", JSON.stringify(json));
-      location.href=redirect_uri;
+      token = JSON.stringify(json);
+      DiscordLogin();
     });
 
     return;
@@ -112,6 +141,35 @@ function DiscordLogin() {
   url=url + "&client_id="+Discord_App.client_id;
   url=url + "&scope="+scope;
   url=url + "&state="+state;
-  url=url + "&redirect_uri="+redirect_uri;
-  location.href=url;
+  
+
+  if (window.usingCordova==true) {
+    //url=url + "&redirect_uri="+"com.lewdclaimer.app"+"://oauth_callback";
+    url=url + "&redirect_uri="+"http://localhost";
+    //url=url + "&redirect_uri="+window.location.origin;
+    //window.open(url, 'oauth:discord', '');
+    //window.cordova.InAppBrowser.open(url, "_blank");
+    var authWindow = window.cordova.InAppBrowser.open(url, "_blank");
+    
+    authWindow.addEventListener('loadstop', function(e) {
+      var loc = e.url;
+      
+      if (loc.search("discord") >= 0) {
+        return;
+      }
+
+      if (loc.search("http://localhost") >= 0) {
+        queryString = loc.replace("http://localhost/","");
+        urlParams = new URLSearchParams(queryString);
+        code = urlParams.get('code');
+        authWindow.close();
+        DiscordLogin();
+      }
+      
+    });
+    
+  } else {
+    url=url + "&redirect_uri="+redirect_uri;
+    location.href=url;
+  }
 }

@@ -1,6 +1,6 @@
 {
-  "name": "io.cordova.hellocordova",
-  "displayName": "HelloCordova",
+  "name": "com.lewdclaimer.app",
+  "displayName": "LewdClaimer",
   "version": "1.0.0",
   "description": "A sample Apache Cordova application that responds to the deviceready event.",
   "main": "index.js",
@@ -18,15 +18,23 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "cordova-android": "^12.0.1",
-    "cordova-browser": "^6.0.0",
+    "cordova-plugin-customurlscheme": "^5.0.2",
+    "cordova-plugin-inappbrowser": "^5.0.0",
     "cz-conventional-changelog": "^3.3.0"
   },
   "cordova": {
     "platforms": [
-      "browser",
-      "electron",
       "android"
-    ]
+    ],
+    "plugins": {
+      "cordova-plugin-customurlscheme": {
+        "URL_SCHEME": "com.lewdclaimer.app",
+        "ANDROID_SCHEME": " ",
+        "ANDROID_HOST": " ",
+        "ANDROID_PATHPREFIX": "/"
+      },
+      "cordova-plugin-inappbrowser": {}
+    }
   },
   "config": {
     "commitizen": {

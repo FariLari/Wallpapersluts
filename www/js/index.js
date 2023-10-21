@@ -7,9 +7,16 @@ function onDeviceReady() {
     //setTimeout( () => {
         document.getElementById("deviceready").style="display:none";
         document.getElementById("header_logo").style="display:none";
+        
         DiscordLogin();
     //},1000);
 }
 
 //setTimeout(onDeviceReady, 2000);
-onDeviceReady();
+//if (window.usingCordova==false) {
+    onDeviceReady();
+//}
+
+function handleOpenURL(url) {
+    console.log("received url: " + url);
+  }
