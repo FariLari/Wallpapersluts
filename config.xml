@@ -12,6 +12,11 @@
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
 
-    
-    
+    <preference name="AndroidPersistentFileLocation" value="Compatibility" />
+
+    <config-file target="AndroidManifest.xml" parent="/*" xmlns:android="http://schemas.android.com/apk/res/android">
+        <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    </config-file>
+
 </widget>

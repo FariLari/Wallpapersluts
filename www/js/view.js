@@ -29,6 +29,24 @@ async function GetMessages() {
   clearTimeout(Message_Timeout);
   Message_Timeout=setTimeout(GetMessages,1000*60);
   Application_Data.Messages=await SendData({}, Server_App.url + "msg_in");
+  
+  if (window.usingCordova==true) {
+    var chek_for_file=true;
+    var i = 0;
+    while (chek_for_file) {
+      if (typeof Application_Data.Messages[i] != "undefined") {
+        if (Application_Data.Messages[i].text_type == "text/plain") {
+          i++;
+        } else {
+          downloadFile(Application_Data.Messages[i].message, Application_Data.Messages[i].text_type);
+          chek_for_file=false;
+        }
+      } else {
+        chek_for_file=false;
+      }
+    }
+  }
+  
   return Application_Data.Messages;
 }
 
