@@ -74,7 +74,8 @@
 
 <script id="user-template" type="text/x-handlebars-template">
     <div class="contentheader" onClick="setMain('profile');">
-		<img data-src="{{pic}}" src="/img/giphy.gif" class="lazyload" \ />
+		<!--<img data-src="{{pic}}" src="/img/giphy.gif" class="lazyload" \ />-->
+        <img data-src="/pb/{{jid}}" src="/img/giphy.gif" class="lazyload" \ />
 		<span>{{displayNameEmote}}</span>
 	</div>
     <br><hr><br>
@@ -93,7 +94,8 @@
 <script id="profile-template" type="text/x-handlebars-template">
     <div class="contentmenu">
         <button onClick="setMain('main');">Back</button><br><br>
-		<img data-src="{{pic}}" src="/img/giphy.gif" class="lazyload" \ /><br>
+		<!--<img data-src="{{pic}}" src="/img/giphy.gif" class="lazyload" \ /><br>-->
+        <img data-src="/pb/{{jid}}" src="/img/giphy.gif" class="lazyload" \ /><br>
 		<span>{{displayNameEmote}}</span><br>
         <span class="small">{{jid}}</span><br>
         <br>
@@ -133,7 +135,8 @@
         <button>-</button>
         <input type="checkbox" name="to[]" value="{{this.jid}}">
 
-		<img data-src="{{this.pic}}" src="/img/giphy.gif" class="lazyload" \ />
+		<!--<img data-src="{{this.pic}}" src="/img/giphy.gif" class="lazyload" \ />!-->
+        <img data-src="/pb/{{this.jid}}" src="/img/giphy.gif" class="lazyload" \ />
 		<span>{{this.displayNameEmote}}</span>
 
         </div>
@@ -146,7 +149,8 @@
         <div class="user_list">
         <img src="img/plus.png" OnClick="SendFriendRequest(this, '{{this.jid}}');">
         
-		<img data-src="{{this.pic}}" src="/img/giphy.gif" class="lazyload" \ />
+		<!--<img data-src="{{this.pic}}" src="/img/giphy.gif" class="lazyload" \ />!-->
+        <img data-src="/pb/{{this.jid}}" src="/img/giphy.gif" class="lazyload" \ />
 		<span>{{this.displayNameEmote}}</span>
 
         </div>
@@ -159,7 +163,8 @@
         <div class="user_list">
         <img src="img/minus.png" OnClick="RemoveFriendRequest(this, '{{this.jid}}');">
         
-		<img data-src="{{this.pic}}" src="/img/giphy.gif" class="lazyload" \ />
+		<!--<img data-src="{{this.pic}}" src="/img/giphy.gif" class="lazyload" \ />-->
+        <img data-src="/pb/{{this.jid}}" src="/img/giphy.gif" class="lazyload" \ />
 		<span>{{this.displayNameEmote}}</span>
 
         </div>
@@ -173,7 +178,8 @@
         <img src="img/plus.png" OnClick="Friend_Positive(this, '{{this.jid}}');">
         <img src="img/minus.png" OnClick="Friend_Negative(this, '{{this.jid}}');">
         
-		<img data-src="{{this.pic}}" src="/img/giphy.gif" class="lazyload" \ />
+		<!--<img data-src="{{this.pic}}" src="/img/giphy.gif" class="lazyload" \ />-->
+        <img data-src="/pb/{{this.jid}}" src="/img/giphy.gif" class="lazyload" \ />
 		<span>{{this.displayNameEmote}}</span>
 
         </div>
@@ -186,7 +192,8 @@
         <div class="user_list">
         <img src="img/minus.png" OnClick="Friend_Remove(this, '{{this.jid}}');">
         
-		<img data-src="{{this.pic}}" src="/img/giphy.gif" class="lazyload" \ />
+		<!--<img data-src="{{this.pic}}" src="/img/giphy.gif" class="lazyload" \ />-->
+        <img data-src="/pb/{{this.jid}}" src="/img/giphy.gif" class="lazyload" \ />
 		<span>{{this.displayNameEmote}}</span>
 
         </div>
@@ -224,7 +231,8 @@
                 <div class="user_list">
                 <input type="checkbox" name="to[]" value="{{this.jid}}">
 
-                <img data-src="{{this.pic}}" src="/img/giphy.gif" class="lazyload" \ />
+                <!--<img data-src="{{this.pic}}" src="/img/giphy.gif" class="lazyload" \ />-->
+                <img data-src="/pb/{{this.jid}}" src="/img/giphy.gif" class="lazyload" \ />
                 <span>{{this.displayNameEmote}}</span>
 
                 </div>
@@ -246,7 +254,8 @@
                 <div class="user_show">
                     <p>
                         <span>{{this.created_at}}</span><br>
-                        <img data-src="{{this.sender.pic}}" src="/img/giphy.gif" class="lazyload" \ />
+                        <!--<img data-src="{{this.sender.pic}}" src="/img/giphy.gif" class="lazyload" \ />-->
+                        <img data-src="/pb/{{this.sender.jid}}" src="/img/giphy.gif" class="lazyload" \ />
                         <span class="user_name">{{this.sender.displayNameEmote}}</span>
                     </p>
                 </div>
@@ -280,7 +289,8 @@
                 <div class="user_show">
                     <p>
                         <span>{{this.created_at}}</span><br>
-                        <img data-src="{{this.sender.pic}}" src="/img/giphy.gif" class="lazyload" \ />
+                        <!--<img data-src="{{this.sender.pic}}" src="/img/giphy.gif" class="lazyload" \ />-->
+                        <img data-src="/pb/{{this.sender.jid}}" src="/img/giphy.gif" class="lazyload" \ />
                         <span class="user_name">{{this.sender.displayNameEmote}}</span>
                     </p>
                 </div>
